@@ -1,0 +1,201 @@
+/*
+   title:       BorrowBookList.cpp
+   description: this file contains the definition of a 
+                class that represents a collection of books 
+				in the context of a library.
+*/
+#include "BorrowBookList.h"
+
+BorrowBookList::BorrowBookList() {;} //Nothing for it to, but it's comforting to have it here...
+
+void BorrowBookList::AddRecord(BorrowRecord Book){BookList.push_back(Book);} //Simplicity is the OOP perk..
+
+//We use an iterator to do a serial search of the list for a book by title...
+
+BorrowRecord BorrowBookList::SearchTitle(string Title)
+{
+	BorrowRecord NullRecord; //Create an empty record 
+
+	for(ThroughTheList = BookList.begin() ; ThroughTheList != BookList.end() ; ThroughTheList++)
+		if(ThroughTheList->GetTitle() == Title)  //If there's a match...
+			return *ThroughTheList; //...send it back...
+	return NullRecord;
+}
+
+//We use an iterator to do a serial search of the list for a book by ID...
+
+BorrowRecord BorrowBookList::SearchID(string ID)
+{
+	BorrowRecord NullRecord; //Create an empty record 
+
+	for(ThroughTheList = BookList.begin() ; ThroughTheList != BookList.end() ; ThroughTheList++)
+		if(ThroughTheList->GetBkID() == ID)  //If there's a match...
+			return *ThroughTheList; //...send it back...
+	return NullRecord;
+}
+
+//We use an iterator to do a serial search of the list for a book by author...
+
+BorrowRecord BorrowBookList::SearchAuthor(string Author)
+{
+	BorrowRecord NullRecord; //Create an empty record 
+
+	for(ThroughTheList = BookList.begin() ; ThroughTheList != BookList.end() ; ThroughTheList++)
+		if(ThroughTheList->GetAuthor() == Author)  //If there's a match...
+			return *ThroughTheList; //...send it back...
+	return NullRecord;
+}
+
+//We use an iterator to do a serial search of the list for a book by title...
+
+BorrowRecord BorrowBookList::SearchTitle(string Title)
+{
+	BorrowRecord NullRecord; //Create an empty record 
+
+	for(ThroughTheList = BookList.begin() ; ThroughTheList != BookList.end() ; ThroughTheList++)
+		if(ThroughTheList->GetTitle() == Title)  //If there's a match...
+			return *ThroughTheList; //...send it back...
+	return NullRecord;
+}
+
+//We use an iterator to do a serial search of the list for the record of a user by user ID...
+BorrowRecord BorrowBookList::SearchuID(string uID)
+{
+	BorrowRecord NullRecord; //Create an empty record 
+
+	for(ThroughTheList = BookList.begin() ; ThroughTheList != BookList.end() ; ThroughTheList++)
+		if(ThroughTheList->GetuserID() == uID)  //If there's a match...
+			return *ThroughTheList; //...send it back...
+	return NullRecord;
+}
+
+//We use an iterator to do a serial search of the list for the record of a user by user Last Name...
+BorrowRecord BorrowBookList::SearchLast(string Last)
+{
+	BorrowRecord NullRecord; //Create an empty record 
+
+	for(ThroughTheList = BookList.begin() ; ThroughTheList != BookList.end() ; ThroughTheList++)
+		if(ThroughTheList->GetLast() == Last)  //If there's a match...
+			return *ThroughTheList; //...send it back...
+	return NullRecord;
+}
+
+//Remove a book by its title
+
+bool BorrowBookList::Remove(string Title)
+{
+	BorrowRecord NullRecord; //Create an empty record 
+
+	for(ThroughTheList = BookList.begin() ; ThroughTheList != BookList.end() ; ThroughTheList++)
+		if(ThroughTheList->GetTitle() == Title) { //If there's a match...
+			BookList.erase(ThroughTheList); //...remove...
+			return true; //Annouce it to the caller...
+		 }
+	return false; //Otherwise, send back a consolation message...
+}
+
+//Remove a record by user id
+
+bool BorrowBookList::RemoveuID(string uID)
+{
+	BorrowRecord NullRecord; //Create an empty record 
+
+	for(ThroughTheList = BookList.begin() ; ThroughTheList != BookList.end() ; ThroughTheList++)
+		if(ThroughTheList->GetuserID() == uID) { //If there's a match...
+			BookList.erase(ThroughTheList); //...remove...
+			return true; //Annouce it to the caller...
+		 }
+	return false; //Otherwise, send back a consolation message...
+}
+
+
+//Show the Collection...
+
+void BorrowBookList::Show()
+{
+    cout << "=========================================================" << endl;
+    for(ThroughTheList = BookList.begin() ; ThroughTheList != BookList.end() ; ThroughTheList++)
+		cout << ThroughTheList->OutPut() << endl; //...display each record...
+	cout << "=========================================================" << endl;
+}
+
+//We use an iterator to do a serial search of the list for a book by title and check it out to a user ID...
+
+BorrowRecord BorrowBookList::Checkout(string Title)
+{
+	BorrowRecord NullRecord; //Create an empty record 
+
+	for(ThroughTheList = BookList.begin() ; ThroughTheList != BookList.end() ; ThroughTheList++)
+		if(ThroughTheList->GetTitle() == Title)
+		   return *ThroughTheList; //...send it back...
+	return NullRecord;
+}
+
+//We use an iterator to do a serial search of the list for a book by title and return them....
+
+BorrowRecord BorrowBookList::Return(string Title)
+{
+	BorrowRecord NullRecord; //Create an empty record 
+
+	for(ThroughTheList = BookList.begin() ; ThroughTheList != BookList.end() ; ThroughTheList++)
+		if(ThroughTheList->GetTitle() == Title)  //If there's a match...
+			return *ThroughTheList; //...send it back...
+	return NullRecord;
+}
+
+//Search for the records by a certain due date...
+BorrowRecord BorrowBookList::SearchbyDate()
+{
+    BorrowRecord NullRecord; //Create an empty record 
+	for(ThroughTheList = BookList.begin() ; ThroughTheList != BookList.end() ; ThroughTheList++)
+		if(ThroughTheList->GetDDate() == DDate)  //If there's a match...
+           return *ThroughTheList; //...send it back...
+	return NullRecord;	
+
+//Write to File...
+void BorrowBookList::WriteToFile()
+{
+   fstream OutFile(FileName.c_str(), ios::out);
+   for(ThroughTheList = List.begin() ; ThroughTheList < List.end() ; ThroughTheList++){
+      OutFile << ThroughTheList->GetTitle() << endl;
+      OutFile << ThroughTheList->GetAuthor() << endl;
+      OutFile << ThroughTheList->GetPublisher() << endl;
+      OutFile << ThroughTheList->GetBkID() << endl;
+      OutFile << ThroughTheList->GetuserID() << endl;
+      OutFile << ThroughTheList->GetLast() << endl;
+      OutFile << ThroughTheList->GetFirst() << endl;
+      OutFile << ThroughTheList->GetDDate() << endl;
+   }
+      OutFile.close();
+}
+
+//Read from File...
+void BorrowBookList::ReadFromFile()
+{
+   BorrowRecord NullRecord; //Create an empty record 
+   string Title, Author, Publisher, ID, Last, First, uID, DDate;
+   fstream InFile(FileName.c_str(), ios::in);
+   while(true) {
+      getline(InFile, Title);    
+      getline(InFile, Author);
+      getline(InFile, Publisher);
+      getline(InFile, ID);    
+      getline(InFile, Last);
+      getline(InFile, First);
+      getline(InFile, uID);
+      getline(InFile, DDate);
+
+      if(InFile.eof())  //Check to see if you're at the end of the file...
+         break;        //...it seems to work better here....
+      NullRecord.SetTitle(Title);        
+      NullRecord.SetAuthor(Author);
+      NullRecord.SetPublisher(Publisher);
+      NullRecord.SetBkID(ID);
+      NullRecord.SetuserID(uID);
+      NullRecord.SetLast(Last);
+      NullRecord.SetFirst(First);
+      NullRecord.SetDDate(DDate);
+      List.push_back(NullRecord);
+   }
+   InFile.close();
+}

@@ -1,0 +1,357 @@
+/*
+   title:       BorrowBookListUI.cpp
+   description: this file contains the definition of a 
+                class that allow practical access to the book list
+*/
+#include "BorrowBookListUI.h"
+
+//The default constructor contains the command processor
+
+BorrowBookListUI::BorrowBookListUI()
+{
+	string Command;
+
+	while(true)  {  //Set up the usual loop...
+		Menu();
+		cout << "Command: ";
+		getline(cin, Command);
+		if(Command == "Quit")
+			break;
+		else if(Command == "AddaRecord")
+			Fill();
+		else if(Command == "FindbyID")
+			FindbyID();
+		else if(Command == "FindbyTitle")
+			FindbyTitle();
+		else if(Command == "FindbyAuthor")
+			FindbyAuthor();
+		else if(Command == "FindbyUserID")
+			FindbyUserID();
+        else if(Command == "FindbyLastName")
+			FindbyLastName();
+		else if(Command == "RemoveBook")
+			RemoveBook();
+		else if(Command == "RemoveUser")
+			RemoveUser();
+		else if(Command == "Show")
+			BookInventory.Show();
+		else if (Command == "ShowbyDate")
+			BookInventory.ShowbyDate();
+		else if(Command == "ReadFromFile")
+			BookInventory.ReadFromFile();
+		else if(Command == "WriteToFile")
+			BookInventory.WriteToFile();
+		else if (Command == "ShowbyDate")
+			BookInventory.ShowbyDate();
+	}
+}
+
+//This tells the user what can be done...
+
+void BorrowBookListUI::Menu()
+{
+	cout << "\nChoices............." << endl;
+	cout << "========================================================" << endl;
+	cout << "\tAddaRecord.....allows the librarian to add books to the list." << endl;
+	cout << "\tFindbyID.....allows the librarian to search for particular books by IDs." << endl;
+	cout << "\tFindbyTitle.....allows the librarian to search for particular books by Title." << endl;
+	cout << "\tFindbyAuthor.....allows the librarian to search for particular books by Author." << endl;
+	cout << "\tRemoveBook...allows the librarian to delete books from the list." << endl;
+	cout << "\tFindbyUserID.....allows the librarian to search for particular users by IDs." << endl;
+	cout << "\tFindbyLastName.....allows the librarian to search for particular users by Last Name." << endl;
+	cout << "\tRemoveUser...allows the librarian to delete users from the list." << endl;
+	cout << "\tShow.....displays the entire contents of the list." << endl;
+	cout << "\tShowbyDate.....displays the entire contents of the list a particular due date." <<endl;
+	cout << "\tReadFromFile.....reads in data." << endl;
+	cout << "\tWriteToFile......writes in data." <<endl;
+    cout << "\tQuit" << endl;
+	cout << "========================================================\n" << endl;
+}
+
+//This is used to put values onto the list...
+
+void BorrowBookListUI::Fill()
+{
+	BorrowRecord TempRecord;
+
+	string Title, Author, Publisher, ID, Last, First, uID, DDate;
+	
+	cout << "Enter Information Below, Stop to quit" << endl;
+	while(true)  {
+		cout << "Title: ";        //There's a lot of information to enter and
+		getline(cin, Title);      //  no elegant shortcut...
+		if(Title == "Stop")
+			break;
+
+	   cout << "Author: ";
+		getline(cin, Author);
+		if(Author == "Stop")
+			break;
+
+		cout << "Publisher: ";
+		getline(cin, Publisher);
+		if(Publisher == "Stop")
+			break;
+
+		cout << "Book ID: ";
+		getline(cin, ID);
+		if(BkCat == "Stop")
+			break;
+
+		cout << "Last Name: ";   
+		getline(cin, Last);     
+		if(Last == "Stop")       
+			break;         
+
+	    cout << "First Name: ";   
+		getline(cin, First);     
+		if(Last == "Stop")       
+			break;         
+
+		cout << "User ID: ";   
+		getline(cin, uID);     
+		if(uID == "Stop")       
+			break;     
+
+		cout << "Due Date: ";
+		getline(cin, DDate);
+		if(DDate == "Stop")
+			break;
+		
+		TempRecord.SetTitle(Title);
+		TempRecord.SetAuthor(Author);
+		TempRecord.SetPublisher(Publisher);
+		TempRecord.SetBkID(ID);
+		TempRecord.SetLast(Last);
+		TempRecord.SetFirst(First);
+		TempRecord.SetUserID(uID);
+		TempRecord.SetDDate(DDate);
+
+		BookInventory.AddRecord(TempRecord);
+	}
+}
+
+//This is a search by book id...
+
+void BorrowBookListUI::FindbyID()
+{
+   BorrowRecord TempRecord;
+   string ID;
+
+   cout << "Enter Book IDs Below, Stop To Quit" << endl;
+
+    while(true)  {
+	    cout << "ID: ";
+	    getline(cin, ID);
+	    if(ID == "Stop")
+		    break;
+
+		TempRecord = BookInventory.SearchID(ID);  
+		if(TempRecord.GetBkID() == Blank)    //A blank record indicates there was no match...
+			cout << Title << " Not Found!" << endl;
+		else
+			cout << TempRecord.OutPut() << endl;
+	}
+}
+
+//This is a search by title...
+
+void BorrowBookListUI::FindbyTitle()
+{
+   BorrowRecord TempRecord;
+   string Title;
+
+   cout << "Enter Titles Below, Stop To Quit" << endl;
+
+    while(true)  {
+	    cout << "Title: ";
+	    getline(cin, Title);
+	    if(Title == "Stop")
+		    break;
+
+		TempRecord = BookInventory.SearchTitle(Title);  
+		if(TempRecord.GetTitle() == Blank)    //A blank record indicates there was no match...
+			cout << Title << " Not Found!" << endl;
+		else
+			cout << TempRecord.OutPut() << endl;
+	}
+}
+
+//This is a search by author...
+
+void BorrowBookListUI::FindbyAuthor()
+{
+   BorrowRecord TempRecord;
+   string Author;
+
+   cout << "Enter Titles Below, Stop To Quit" << endl;
+
+    while(true)  {
+	    cout << "Author: ";
+	    getline(cin, Author);
+	    if(Author == "Stop")
+		    break;
+
+		TempRecord = BookInventory.SearchAuthor(Author);  
+		if(TempRecord.GetAuthor() == Blank)    //A blank record indicates there was no match...
+			cout << Author << " Not Found!" << endl;
+		else
+			cout << TempRecord.OutPut() << endl;
+	}
+}
+
+//This is a search by user id...
+
+void BorrowBookListUI::FindbyUserID()
+{
+   BorrowRecord TempRecord;
+   string uID;
+
+   cout << "Enter User IDs Below, Stop To Quit" << endl;
+
+    while(true)  {
+	    cout << "User ID: ";
+	    getline(cin, uID);
+	    if(uID == "Stop")
+		    break;
+
+		TempRecord = BookInventory.SearchuID(uID);  
+		if(TempRecord.GetuserID() == Blank)    //A blank record indicates there was no match...
+			cout << uID << " Not Found!" << endl;
+		else
+			cout << TempRecord.OutPut() << endl;
+	}
+}
+
+//This is a search by user last names...
+
+void BorrowBookListUI::FindbyLastName()
+{
+   BorrowRecord TempRecord;
+   string Last;
+
+   cout << "Enter User Last Name Below, Stop To Quit" << endl;
+
+    while(true)  {
+	    cout << "Last Name: ";
+	    getline(cin, Last);
+	    if(Last == "Stop")
+		    break;
+
+		TempRecord = BookInventory.SearchLast(Last);  
+		if(TempRecord.GetLast() == Blank)    //A blank record indicates there was no match...
+			cout << Last << " Not Found!" << endl;
+		else
+			cout << TempRecord.OutPut() << endl;
+	}
+}
+
+//Remove books by titles...
+
+void BorrowBookListUI::RemoveBook()
+{
+    string Title;
+
+    cout << "Enter Titles Below, Stop To Quit" << endl;
+
+    while(true)  {
+	    cout << "Title: ";
+	    getline(cin, Title);
+	    if(Title == "Stop")
+		    break;
+  
+		if(BookInventory.RemoveBook(Title))    
+			cout << Title << " Removed" << endl;
+        else
+			cout << Title << " Not Found!" << endl;
+
+	}
+}
+
+//Remove users by ids...
+
+void BorrowBookListUI::RemoveUser()
+{
+    string uID;
+    cout << "Enter User IDs Below, Stop To Quit" << endl;
+    while(true)  {
+	    cout << "User ID: ";
+	    getline(cin, uID);
+	    if(uID == "Stop")
+		    break;  
+		if(BookInventory.RemoveUser(uID))    
+			cout << uID << " Removed" << endl;
+        else
+			cout << uID << " Not Found!" << endl;
+	}
+}
+
+//This is checking out a book to a specific user ID...
+
+void BorrowBookListUI::Checkout()
+{
+   BorrowRecord TempRecord;
+   string Title, uID;
+   getline(cin, uID);  
+   if(TempRecord.GetuserID() == uID)
+   {
+      cout << TempRecord.GetUserID()<<": "<<endl; // Enter the book for the user ID requested
+	  while(true)  {
+	     cout << "Title: ";
+		 getline(cin, Title);
+	     if(Title == "Stop")
+	     break;
+	  TempRecord.SetTitle(Title);
+	  TempRecord = BookInventory.Checkout(Title);  
+	  if(TempRecord.GetTitle() == Blank)    //A blank record indicates there was no match...
+	     cout << Title << " Not Found!" << endl;
+	  else
+		 cout << TempRecord.OutPut() << endl;
+	  }   
+   }
+}
+
+void BorrowBookListUI::Return()
+{
+   BorrowRecord TempRecord;
+   string Title;
+
+   cout << "Enter Titles Below, Stop To Quit" << endl;
+
+    while(true)  {
+	    cout << "Title: ";
+	    getline(cin, Title);
+	    if(Title == "Stop")
+		    break;
+        TempRecord.SetUserID("");   // When a book is returned, we set user ids, lastnames,
+		TempRecord.SetLast("");     // and due dates to blanks...
+		TempRecord.SetDDate("");
+		TempRecord = BookInventory.Return(Title);  
+		if(TempRecord.GetTitle() == Blank)    //A blank record indicates there was no match...
+			cout << Title << " Not Found!" << endl;
+		else
+			cout << TempRecord.OutPut() << endl;
+	}
+}
+
+void BorrowBookListUI::ShowbyDate()
+{
+   BorrowRecord TempRecord;
+   string DDate;
+
+   cout << "Enter Due Dates Below, Stop To Quit" << endl;
+
+    while(true)  {
+	    cout << "Due Date: ";
+	    getline(cin, DDate);
+	    if(DDate == "Stop")
+		    break;
+
+		TempRecord = BookInventory.SearchbyDate(DDate);  
+		if(TempRecord.GetDDate() == Blank)    //A blank record indicates there was no match...
+			cout << DDate << " There is no book due!" << endl;
+		else
+			cout << TempRecord.OutPut() << endl;
+	}
+}
+
